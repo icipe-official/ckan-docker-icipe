@@ -3,7 +3,8 @@ FROM ckan/ckan-base:2.11
 # Install any extensions needed by your CKAN instance
 # See Dockerfile.dev for more details and examples
 USER root
-RUN pip3 install --no-cache-dir ckanext-geoview
+RUN pip3 install  ckanext-geoview
+RUN pip install ckanext-scheming
 # Copy custom initialization scripts
 COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
 
