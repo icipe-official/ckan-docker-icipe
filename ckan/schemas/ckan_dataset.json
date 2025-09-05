@@ -1,0 +1,1039 @@
+{
+	"scheming_version": 2,
+	"dataset_type": "dataset",
+	"about": "A reimplementation of the default CKAN dataset schema",
+	"about_url": "http://github.com/ckan/ckanext-scheming",
+	"dataset_fields": [
+		{
+			"field_name": "title",
+			"label": "Project title",
+			"preset": "title",
+			"form_placeholder": "Title of the project in sentence case e.g. Smart army worm surveillance"
+		},
+		{
+			"field_name": "name",
+			"label": "URL",
+			"preset": "dataset_slug",
+			"form_placeholder": "eg. my-dataset"
+		},
+		{
+			"field_name": "notes",
+			"label": "Description",
+			"form_snippet": "markdown.html",
+			"form_placeholder": "Description/abstract of the project"
+		},
+		{
+			"field_name": "tag_string",
+			"label": "Tags",
+			"preset": "tag_string_autocomplete",
+			"form_placeholder": "eg. economy, mental health, government"
+		},
+		{
+			"field_name": "principal_investigator",
+			"label": "Name of principal investigator",
+			"form_placeholder": "e.g. John Smith"
+		},
+		{
+			"field_name": "principal_investigator_email",
+			"label": "Email of principal investigator",
+			"form_placeholder": "e.g. icipe@icipe.org",
+			"display_snippet": "email.html",
+			"display_email_name_field": "principal_investigator"
+		},
+		{
+			"field_name": "owner_org",
+			"label": "Theme",
+			"preset": "dataset_organization"
+		},
+		{
+			"field_name": "collaborators",
+			"label": "Collaborators",
+			"repeating_subfields": true,
+			"subfields": [
+				{
+					"field_name": "collaborator",
+					"label": "Collaborator",
+					"form_placeholder": "eg. John Smith (icipe)"
+				}
+			]
+		},
+		{
+			"field_name": "donor",
+			"label": "Donor/funding agency",
+			"form_placeholder": "e.g. Wellcome Trust, NIH, Mastercard Foundation etc."
+		},
+		{
+			"field_name": "start_date",
+			"label": "Start date of project",
+			"preset": "date",
+			"form_placeholder": "mm-dd-yyyy"
+		},
+		{
+			"field_name": "end_date",
+			"label": "End date of project",
+			"preset": "date",
+			"form_placeholder": "mm-dd-yyyy"
+		},
+		{
+			"field_name": "region",
+			"label": "Region",
+			"form_placeholder": "e.g. East Africa"
+		},
+		{
+			"field_name": "country",
+			"label": "Country(ies)",
+			"repeating_subfields": true,
+			"subfields": [
+				{
+					"field_name": "country",
+					"label": "Country",
+					"choices": [
+						{
+							"value": "AF",
+							"label": "Afghanistan"
+						},
+						{
+							"value": "AL",
+							"label": "Albania"
+						},
+						{
+							"value": "DZ",
+							"label": "Algeria"
+						},
+						{
+							"value": "AS",
+							"label": "American Samoa"
+						},
+						{
+							"value": "AD",
+							"label": "Andorra"
+						},
+						{
+							"value": "AO",
+							"label": "Angola"
+						},
+						{
+							"value": "AI",
+							"label": "Anguilla"
+						},
+						{
+							"value": "AQ",
+							"label": "Antarctica"
+						},
+						{
+							"value": "AG",
+							"label": "Antigua and Barbuda"
+						},
+						{
+							"value": "AR",
+							"label": "Argentina"
+						},
+						{
+							"value": "AM",
+							"label": "Armenia"
+						},
+						{
+							"value": "AW",
+							"label": "Aruba"
+						},
+						{
+							"value": "AU",
+							"label": "Australia"
+						},
+						{
+							"value": "AT",
+							"label": "Austria"
+						},
+						{
+							"value": "AZ",
+							"label": "Azerbaijan"
+						},
+						{
+							"value": "BS",
+							"label": "Bahamas"
+						},
+						{
+							"value": "BH",
+							"label": "Bahrain"
+						},
+						{
+							"value": "BD",
+							"label": "Bangladesh"
+						},
+						{
+							"value": "BB",
+							"label": "Barbados"
+						},
+						{
+							"value": "BY",
+							"label": "Belarus"
+						},
+						{
+							"value": "BE",
+							"label": "Belgium"
+						},
+						{
+							"value": "BZ",
+							"label": "Belize"
+						},
+						{
+							"value": "BJ",
+							"label": "Benin"
+						},
+						{
+							"value": "BM",
+							"label": "Bermuda"
+						},
+						{
+							"value": "BT",
+							"label": "Bhutan"
+						},
+						{
+							"value": "BO",
+							"label": "Bolivia"
+						},
+						{
+							"value": "BA",
+							"label": "Bosnia and Herzegovina"
+						},
+						{
+							"value": "BW",
+							"label": "Botswana"
+						},
+						{
+							"value": "BR",
+							"label": "Brazil"
+						},
+						{
+							"value": "BN",
+							"label": "Brunei Darussalam"
+						},
+						{
+							"value": "BG",
+							"label": "Bulgaria"
+						},
+						{
+							"value": "BF",
+							"label": "Burkina Faso"
+						},
+						{
+							"value": "BI",
+							"label": "Burundi"
+						},
+						{
+							"value": "KH",
+							"label": "Cambodia"
+						},
+						{
+							"value": "CM",
+							"label": "Cameroon"
+						},
+						{
+							"value": "CA",
+							"label": "Canada"
+						},
+						{
+							"value": "CV",
+							"label": "Cape Verde"
+						},
+						{
+							"value": "KY",
+							"label": "Cayman Islands"
+						},
+						{
+							"value": "CF",
+							"label": "Central African Republic"
+						},
+						{
+							"value": "TD",
+							"label": "Chad"
+						},
+						{
+							"value": "CL",
+							"label": "Chile"
+						},
+						{
+							"value": "CN",
+							"label": "China"
+						},
+						{
+							"value": "CO",
+							"label": "Colombia"
+						},
+						{
+							"value": "KM",
+							"label": "Comoros"
+						},
+						{
+							"value": "CG",
+							"label": "Congo"
+						},
+						{
+							"value": "CD",
+							"label": "Congo, Democratic Republic of"
+						},
+						{
+							"value": "CR",
+							"label": "Costa Rica"
+						},
+						{
+							"value": "CI",
+							"label": "Côte d'Ivoire"
+						},
+						{
+							"value": "HR",
+							"label": "Croatia"
+						},
+						{
+							"value": "CU",
+							"label": "Cuba"
+						},
+						{
+							"value": "CY",
+							"label": "Cyprus"
+						},
+						{
+							"value": "CZ",
+							"label": "Czechia"
+						},
+						{
+							"value": "DK",
+							"label": "Denmark"
+						},
+						{
+							"value": "DJ",
+							"label": "Djibouti"
+						},
+						{
+							"value": "DM",
+							"label": "Dominica"
+						},
+						{
+							"value": "DO",
+							"label": "Dominican Republic"
+						},
+						{
+							"value": "EC",
+							"label": "Ecuador"
+						},
+						{
+							"value": "EG",
+							"label": "Egypt"
+						},
+						{
+							"value": "SV",
+							"label": "El Salvador"
+						},
+						{
+							"value": "GQ",
+							"label": "Equatorial Guinea"
+						},
+						{
+							"value": "ER",
+							"label": "Eritrea"
+						},
+						{
+							"value": "EE",
+							"label": "Estonia"
+						},
+						{
+							"value": "SZ",
+							"label": "Eswatini"
+						},
+						{
+							"value": "ET",
+							"label": "Ethiopia"
+						},
+						{
+							"value": "FJ",
+							"label": "Fiji"
+						},
+						{
+							"value": "FI",
+							"label": "Finland"
+						},
+						{
+							"value": "FR",
+							"label": "France"
+						},
+						{
+							"value": "GA",
+							"label": "Gabon"
+						},
+						{
+							"value": "GM",
+							"label": "Gambia"
+						},
+						{
+							"value": "GE",
+							"label": "Georgia"
+						},
+						{
+							"value": "DE",
+							"label": "Germany"
+						},
+						{
+							"value": "GH",
+							"label": "Ghana"
+						},
+						{
+							"value": "GR",
+							"label": "Greece"
+						},
+						{
+							"value": "GD",
+							"label": "Grenada"
+						},
+						{
+							"value": "GT",
+							"label": "Guatemala"
+						},
+						{
+							"value": "GN",
+							"label": "Guinea"
+						},
+						{
+							"value": "GW",
+							"label": "Guinea-Bissau"
+						},
+						{
+							"value": "GY",
+							"label": "Guyana"
+						},
+						{
+							"value": "HT",
+							"label": "Haiti"
+						},
+						{
+							"value": "HN",
+							"label": "Honduras"
+						},
+						{
+							"value": "HU",
+							"label": "Hungary"
+						},
+						{
+							"value": "IS",
+							"label": "Iceland"
+						},
+						{
+							"value": "IN",
+							"label": "India"
+						},
+						{
+							"value": "ID",
+							"label": "Indonesia"
+						},
+						{
+							"value": "IR",
+							"label": "Iran"
+						},
+						{
+							"value": "IQ",
+							"label": "Iraq"
+						},
+						{
+							"value": "IE",
+							"label": "Ireland"
+						},
+						{
+							"value": "IL",
+							"label": "Israel"
+						},
+						{
+							"value": "IT",
+							"label": "Italy"
+						},
+						{
+							"value": "JM",
+							"label": "Jamaica"
+						},
+						{
+							"value": "JP",
+							"label": "Japan"
+						},
+						{
+							"value": "JO",
+							"label": "Jordan"
+						},
+						{
+							"value": "KZ",
+							"label": "Kazakhstan"
+						},
+						{
+							"value": "KE",
+							"label": "Kenya"
+						},
+						{
+							"value": "KI",
+							"label": "Kiribati"
+						},
+						{
+							"value": "KP",
+							"label": "Korea (Democratic People's Republic of)"
+						},
+						{
+							"value": "KR",
+							"label": "Korea (Republic of)"
+						},
+						{
+							"value": "KW",
+							"label": "Kuwait"
+						},
+						{
+							"value": "KG",
+							"label": "Kyrgyzstan"
+						},
+						{
+							"value": "LA",
+							"label": "Lao People's Democratic Republic"
+						},
+						{
+							"value": "LV",
+							"label": "Latvia"
+						},
+						{
+							"value": "LB",
+							"label": "Lebanon"
+						},
+						{
+							"value": "LS",
+							"label": "Lesotho"
+						},
+						{
+							"value": "LR",
+							"label": "Liberia"
+						},
+						{
+							"value": "LY",
+							"label": "Libya"
+						},
+						{
+							"value": "LI",
+							"label": "Liechtenstein"
+						},
+						{
+							"value": "LT",
+							"label": "Lithuania"
+						},
+						{
+							"value": "LU",
+							"label": "Luxembourg"
+						},
+						{
+							"value": "MG",
+							"label": "Madagascar"
+						},
+						{
+							"value": "MW",
+							"label": "Malawi"
+						},
+						{
+							"value": "MY",
+							"label": "Malaysia"
+						},
+						{
+							"value": "MV",
+							"label": "Maldives"
+						},
+						{
+							"value": "ML",
+							"label": "Mali"
+						},
+						{
+							"value": "MT",
+							"label": "Malta"
+						},
+						{
+							"value": "MH",
+							"label": "Marshall Islands"
+						},
+						{
+							"value": "MR",
+							"label": "Mauritania"
+						},
+						{
+							"value": "MU",
+							"label": "Mauritius"
+						},
+						{
+							"value": "MX",
+							"label": "Mexico"
+						},
+						{
+							"value": "FM",
+							"label": "Micronesia (Federated States of)"
+						},
+						{
+							"value": "MD",
+							"label": "Moldova"
+						},
+						{
+							"value": "MC",
+							"label": "Monaco"
+						},
+						{
+							"value": "MN",
+							"label": "Mongolia"
+						},
+						{
+							"value": "ME",
+							"label": "Montenegro"
+						},
+						{
+							"value": "MA",
+							"label": "Morocco"
+						},
+						{
+							"value": "MZ",
+							"label": "Mozambique"
+						},
+						{
+							"value": "MM",
+							"label": "Myanmar"
+						},
+						{
+							"value": "NA",
+							"label": "Namibia"
+						},
+						{
+							"value": "NR",
+							"label": "Nauru"
+						},
+						{
+							"value": "NP",
+							"label": "Nepal"
+						},
+						{
+							"value": "NL",
+							"label": "Netherlands"
+						},
+						{
+							"value": "NZ",
+							"label": "New Zealand"
+						},
+						{
+							"value": "NI",
+							"label": "Nicaragua"
+						},
+						{
+							"value": "NE",
+							"label": "Niger"
+						},
+						{
+							"value": "NG",
+							"label": "Nigeria"
+						},
+						{
+							"value": "MK",
+							"label": "North Macedonia"
+						},
+						{
+							"value": "NO",
+							"label": "Norway"
+						},
+						{
+							"value": "OM",
+							"label": "Oman"
+						},
+						{
+							"value": "PK",
+							"label": "Pakistan"
+						},
+						{
+							"value": "PW",
+							"label": "Palau"
+						},
+						{
+							"value": "PS",
+							"label": "Palestine, State of"
+						},
+						{
+							"value": "PA",
+							"label": "Panama"
+						},
+						{
+							"value": "PG",
+							"label": "Papua New Guinea"
+						},
+						{
+							"value": "PY",
+							"label": "Paraguay"
+						},
+						{
+							"value": "PE",
+							"label": "Peru"
+						},
+						{
+							"value": "PH",
+							"label": "Philippines"
+						},
+						{
+							"value": "PL",
+							"label": "Poland"
+						},
+						{
+							"value": "PT",
+							"label": "Portugal"
+						},
+						{
+							"value": "QA",
+							"label": "Qatar"
+						},
+						{
+							"value": "RO",
+							"label": "Romania"
+						},
+						{
+							"value": "RU",
+							"label": "Russian Federation"
+						},
+						{
+							"value": "RW",
+							"label": "Rwanda"
+						},
+						{
+							"value": "KN",
+							"label": "Saint Kitts and Nevis"
+						},
+						{
+							"value": "LC",
+							"label": "Saint Lucia"
+						},
+						{
+							"value": "VC",
+							"label": "Saint Vincent and the Grenadines"
+						},
+						{
+							"value": "WS",
+							"label": "Samoa"
+						},
+						{
+							"value": "SM",
+							"label": "San Marino"
+						},
+						{
+							"value": "ST",
+							"label": "Sao Tome and Principe"
+						},
+						{
+							"value": "SA",
+							"label": "Saudi Arabia"
+						},
+						{
+							"value": "SN",
+							"label": "Senegal"
+						},
+						{
+							"value": "RS",
+							"label": "Serbia"
+						},
+						{
+							"value": "SC",
+							"label": "Seychelles"
+						},
+						{
+							"value": "SL",
+							"label": "Sierra Leone"
+						},
+						{
+							"value": "SG",
+							"label": "Singapore"
+						},
+						{
+							"value": "SK",
+							"label": "Slovakia"
+						},
+						{
+							"value": "SI",
+							"label": "Slovenia"
+						},
+						{
+							"value": "SB",
+							"label": "Solomon Islands"
+						},
+						{
+							"value": "SO",
+							"label": "Somalia"
+						},
+						{
+							"value": "ZA",
+							"label": "South Africa"
+						},
+						{
+							"value": "SS",
+							"label": "South Sudan"
+						},
+						{
+							"value": "ES",
+							"label": "Spain"
+						},
+						{
+							"value": "LK",
+							"label": "Sri Lanka"
+						},
+						{
+							"value": "SD",
+							"label": "Sudan"
+						},
+						{
+							"value": "SR",
+							"label": "Suriname"
+						},
+						{
+							"value": "SE",
+							"label": "Sweden"
+						},
+						{
+							"value": "CH",
+							"label": "Switzerland"
+						},
+						{
+							"value": "SY",
+							"label": "Syrian Arab Republic"
+						},
+						{
+							"value": "TW",
+							"label": "Taiwan"
+						},
+						{
+							"value": "TJ",
+							"label": "Tajikistan"
+						},
+						{
+							"value": "TZ",
+							"label": "Tanzania"
+						},
+						{
+							"value": "TH",
+							"label": "Thailand"
+						},
+						{
+							"value": "TL",
+							"label": "Timor-Leste"
+						},
+						{
+							"value": "TG",
+							"label": "Togo"
+						},
+						{
+							"value": "TO",
+							"label": "Tonga"
+						},
+						{
+							"value": "TT",
+							"label": "Trinidad and Tobago"
+						},
+						{
+							"value": "TN",
+							"label": "Tunisia"
+						},
+						{
+							"value": "TR",
+							"label": "Turkey"
+						},
+						{
+							"value": "TM",
+							"label": "Turkmenistan"
+						},
+						{
+							"value": "TV",
+							"label": "Tuvalu"
+						},
+						{
+							"value": "UG",
+							"label": "Uganda"
+						},
+						{
+							"value": "UA",
+							"label": "Ukraine"
+						},
+						{
+							"value": "AE",
+							"label": "United Arab Emirates"
+						},
+						{
+							"value": "GB",
+							"label": "United Kingdom"
+						},
+						{
+							"value": "US",
+							"label": "United States of America"
+						},
+						{
+							"value": "UY",
+							"label": "Uruguay"
+						},
+						{
+							"value": "UZ",
+							"label": "Uzbekistan"
+						},
+						{
+							"value": "VU",
+							"label": "Vanuatu"
+						},
+						{
+							"value": "VE",
+							"label": "Venezuela"
+						},
+						{
+							"value": "VN",
+							"label": "Viet Nam"
+						},
+						{
+							"value": "YE",
+							"label": "Yemen"
+						},
+						{
+							"value": "ZM",
+							"label": "Zambia"
+						},
+						{
+							"value": "ZW",
+							"label": "Zimbabwe"
+						}
+					]
+				}
+			]
+		},
+		{
+			"field_name": "administrative_areas",
+			"label": "Administrative area(s)",
+			"form_placeholder": "Sub-national administrative areas e.g. provinces, states, or districts"
+		},
+		{
+			"field_name": "contact_person",
+			"label": "Name of contact person",
+			"form_placeholder": "e.g. John Smith"
+		},
+		{
+			"field_name": "contact_person_email",
+			"label": "Email of contact person",
+			"form_placeholder": "e.g. icipe@icipe.org",
+			"display_snippet": "email.html"
+		},
+		{
+			"field_name": "date_uploaded",
+			"label": "Date uploaded",
+			"preset": "date",
+			"form_placeholder": "mm-dd-yyyy"
+		},
+		{
+			"field_name": "maintainer",
+			"label": "Maintainer",
+			"form_placeholder": "e.g. John Smith"
+		},
+		{
+			"field_name": "maintainer_email",
+			"label": "Email of maintainer",
+			"form_placeholder": "e.g. icipe@icipe.org",
+			"display_snippet": "email.html"
+		},
+		{
+			"field_name": "citation_narrative",
+			"label": "Citation narrative",
+			"form_placeholder": "e.g. J. Smith. 'Smart army worm surveillance'. Journal of Environmental Management, Elsevier, 2019."
+		},
+		{
+			"field_name": "third_party",
+			"label": "Is this third party data?",
+			"preset": "select",
+			"choices": [
+				{
+					"value": "no",
+					"label": "No - This is not third party data, and I consent to archive it"
+				},
+				{
+					"value": "yes",
+					"label": "Yes - I have a proprietary consent to archive it"
+				}
+			]
+		},
+		{
+			"field_name": "acknowledgement",
+			"label": "Acknowledgement statement",
+			"form_snippet": "markdown.html"
+		},
+		{
+			"field_name": "license_id",
+			"label": "License",
+			"form_snippet": "license.html",
+			"help_text": "License definitions and additional information can be found at http://opendefinition.org/"
+		}
+	],
+	"resource_fields": [
+		{
+			"field_name": "url",
+			"label": "URL",
+			"preset": "resource_url_upload"
+		},
+		{
+			"field_name": "name",
+			"label": "Name",
+			"form_placeholder": "eg. January 2011 Gold Prices"
+		},
+		{
+			"field_name": "description",
+			"label": "Description",
+			"form_snippet": "markdown.html",
+			"form_placeholder": "Some useful notes about the data"
+		},
+		{
+			"field_name": "format",
+			"label": "Format",
+			"preset": "resource_format_autocomplete"
+		},
+		{
+			"field_name": "date_uploaded_resource",
+			"label": "Date uploaded",
+			"preset": "date",
+			"form_placeholder": "mm-dd-yyyy"
+		},
+		{
+			"field_name": "date_last_updated",
+			"label": "Date last edited",
+			"preset": "date",
+			"form_placeholder": "mm-dd-yyyy"
+		},
+		{
+			"field_name": "restricted",
+			"label": "Access Restriction",
+			"subfields": [
+				{
+					"field_name": "level",
+					"label": "Level",
+					"preset": "select",
+					"form_include_blank_choice": false,
+					"choices": [
+						{
+							"value": "public",
+							"label": "Public"
+						},
+						{
+							"value": "registered",
+							"label": "Registered Users"
+						},
+						{
+							"value": "any_organization",
+							"label": "Any Organization Members (Trusted Users)"
+						},
+						{
+							"value": "same_organization",
+							"label": "Same Organization Members"
+						},
+						{
+							"value": "only_allowed_users",
+							"label": "Allowed Users Only"
+						}
+					]
+				},
+				{
+					"field_name": "allowed_users",
+					"label": "Allowed Users",
+					"preset": "tag_string_autocomplete",
+					"data-module-source": "/api/2/util/user/autocomplete?q=?"
+				}
+			]
+		}
+	]
+}

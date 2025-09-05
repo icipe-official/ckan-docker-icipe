@@ -25,11 +25,13 @@ services:
       - "0.0.0.0:${CKAN_PORT_HOST}:5000"
     volumes:
       - ckan_storage:/var/lib/ckan
-      - ./src:/srv/app/src_extensions
+      - ./ckan/src:/srv/app/src_extensions
       - pip_cache:/root/.cache/pip
       - site_packages:/usr/local/lib/python3.10/site-packages
       - local_bin:/usr/local/bin
       - home_dir:/srv/app/
+      - ./ckan/schemas:/srv/app/schemas
+     # - ./ckan.ini:/srv/app/ckan.ini
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:5000"]

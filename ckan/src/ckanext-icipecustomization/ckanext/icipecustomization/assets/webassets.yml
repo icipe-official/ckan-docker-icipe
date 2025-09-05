@@ -1,0 +1,14 @@
+# icipecustomization-js:
+#   filter: rjsmin
+#   output: ckanext-icipecustomization/%(version)s-icipecustomization.js
+#   contents:
+#     - js/icipecustomization.js
+#   extra:
+#     preload:
+#       - base/main
+
+# icipecustomization-css:
+#   filter: cssrewrite
+#   output: ckanext-icipecustomization/%(version)s-icipecustomization.css
+#   contents:
+#     - css/icipecustomization.css
