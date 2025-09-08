@@ -40,8 +40,6 @@ RUN pip install \
     ckanext-scheming \
     ckanext-pdfview \
     ckanext-gallery
-RUN pip install -e 'git+https://github.com/open-data/ckanext-repeating.git#egg=ckanext-repeating'
-RUN pip install  ckanext-composite
 RUN pip install ckanext-envvars
 
 # Copy custom initialization scripts
