@@ -46,10 +46,17 @@ dataset_fields:
 - field_name: region
   label: Region
   form_placeholder: e.g. East Africa
-- field_name: country
-  label: Country(ies)
-  preset: multiple_checkbox
-  choices:
+- field_name: countries
+  repeating_subfields:
+  - field_name: note
+    label: Notes
+    preset: multiple_text
+    form_blanks: 1
+  - field_name: country
+    label: country
+    preset:  select
+    form_snippet: select.html
+    choices:
     - value: AF
       label: Afghanistan
     - value: AL
