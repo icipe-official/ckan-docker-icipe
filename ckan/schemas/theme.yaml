@@ -1,0 +1,27 @@
+scheming_version: 1
+organization_type: theme
+about_url: https://github.com/ckan/ckanext-scheming
+
+fields:
+  - field_name: title
+    label: Name
+    validators: ignore_missing unicode_safe
+    form_snippet: large_text.html
+    form_attrs:
+      data-module: slug-preview-target
+    form_placeholder: My Theme
+
+  - field_name: name
+    label: URL
+    validators: not_empty unicode_safe name_validator group_name_validator
+    form_snippet: slug.html
+    form_placeholder: my-theme
+
+  - field_name: notes
+    label: Description
+    form_snippet: markdown.html
+    form_placeholder: A short description of this theme
+
+  - field_name: image_url
+    label: Image URL
+    form_placeholder: https://example.org/theme-image.jpg

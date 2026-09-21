@@ -4,20 +4,21 @@ FROM ckan/ckan-base:2.11
 # See Dockerfile.dev for more details and examples
 USER root
 
-COPY ckanext-icipecustomization/ /srv/app/src/ckanext-icipecustomization
-# RUN pip install -e /srv/app/src/ckanext-icipecustomization
+COPY ckan/src/ckanext-icipecustomization/ /srv/app/src/ckanext-icipecustomization
+RUN pip install -e /srv/app/src/ckanext-icipecustomization
 
 RUN pip install \
     ckanext-geoview \
     ckanext-scheming \
     ckanext-pdfview \
     ckanext-gallery
+RUN pip install ckanext-envvars
 # Copy custom initialization scripts
-COPY --chown=ckan-sys:ckan-sys docker-entrypoint.d/* /docker-entrypoint.d/
+COPY --chown=ckan-sys:ckan-sys ckan/docker-entrypoint.d/* /docker-entrypoint.d/
 
 # Apply any patches needed to CKAN core or any of the built extensions (not the
 # runtime mounted ones)
-COPY --chown=ckan-sys:ckan-sys ./ckan/patches ${APP_DIR}/patches
+COPY --chown=ckan-sys:ckan-sys ckan/patches ${APP_DIR}/patches
 
 USER ckan
 

@@ -2,16 +2,15 @@
 
 {% block footer_content %}
   <div class="row">
-    <div class="col-md-6 footer-links">
+    <div class="col-md-8 footer-links icipe-footer">
+      <p class="icipe-footer__title">icipe Data Portal</p>
+      <p>Research data supporting healthier lives and sustainable livelihoods in Africa.</p>
       <ul class="list-unstyled">
-        <li>
-          <a href="https://www.opendefinition.org/od/">
-            <img src="{{ h.url_for_static('/base/images/od_80x15_blue.png') }}" alt="Open Data">
-          </a>
-        </li>
+        <li><a href="https://www.icipe.org/" target="_blank" rel="noopener">icipe.org</a></li>
+        <li><a href="https://idap.icipe.org/" target="_blank" rel="noopener">Information, Data and Analytics Platform</a></li>
       </ul>
     </div>
-    <div class="col-md-6 footer-lang">
+    <div class="col-md-4 footer-lang">
       {% snippet "snippets/language_selector.html" %}
     </div>
   </div>
