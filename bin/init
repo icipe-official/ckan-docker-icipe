@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ -e "$ROOT/.env" ]]; then
+  echo ".env already exists; leaving it unchanged. Use bin/reset to restore defaults."
+  exit 0
+fi
+
+cp -- "$ROOT/.env.example" "$ROOT/.env"
+echo "Created .env from .env.example. Review and change the sample credentials before starting CKAN."
