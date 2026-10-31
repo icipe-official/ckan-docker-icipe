@@ -62,7 +62,7 @@ more information.
 
 Use this if you are a maintainer and will not be making code changes to CKAN or to CKAN extensions
 
-Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing example settings into an existing `.env`. Existing values are kept as defaults. It prompts for the PostgreSQL connection, datastore accounts, and host path for uploaded files. Review the remaining settings in `.env` before starting CKAN.
+Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing example settings into an existing `.env`. Existing values are kept as defaults. It prompts for the CKAN PostgreSQL connection and file storage path on the host (directory or mount point). Review the remaining settings, including DataStore database URLs, in `.env` before starting CKAN.
 
 For production, uploaded files are stored on the host at `CKAN_STORAGE_HOST_PATH` (by default
 `/srv/ckan/storage`) and mounted into CKAN at `CKAN_STORAGE_PATH` (`/var/lib/ckan`). Ensure this

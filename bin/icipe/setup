@@ -92,23 +92,13 @@ def main():
     main_name = ask("CKAN database name", main_db["database"])
     sslmode = ask("PostgreSQL SSL mode (blank for default)", main_db["sslmode"])
 
-    datastore_write = connection_defaults(values.get("CKAN_DATASTORE_WRITE_URL", ""))
-    datastore_user = ask("Datastore write user", datastore_write["user"])
-    datastore_password = ask_secret("Datastore write password", datastore_write["password"])
-    datastore_name = ask("Datastore database name", datastore_write["database"])
-    datastore_read = connection_defaults(values.get("CKAN_DATASTORE_READ_URL", ""))
-    readonly_user = ask("Datastore read-only user", datastore_read["user"])
-    readonly_password = ask_secret("Datastore read-only password", datastore_read["password"])
-
-    storage = ask("Host path for CKAN uploaded files", values.get("CKAN_STORAGE_HOST_PATH", "/srv/ckan/storage"))
+    storage = ask("CKAN file storage path on the host (directory or mount point)", values.get("CKAN_STORAGE_HOST_PATH", "/srv/ckan/storage"))
 
     values["CKAN_SQLALCHEMY_URL"] = make_url(main_user, main_password, host, port, main_name, sslmode)
-    values["CKAN_DATASTORE_WRITE_URL"] = make_url(datastore_user, datastore_password, host, port, datastore_name, sslmode)
-    values["CKAN_DATASTORE_READ_URL"] = make_url(readonly_user, readonly_password, host, port, datastore_name, sslmode)
     values["CKAN_STORAGE_HOST_PATH"] = storage
 
     # Update selected assignments and preserve existing settings and comments.
-    keys = {"CKAN_SQLALCHEMY_URL", "CKAN_DATASTORE_WRITE_URL", "CKAN_DATASTORE_READ_URL", "CKAN_STORAGE_HOST_PATH"}
+    keys = {"CKAN_SQLALCHEMY_URL", "CKAN_STORAGE_HOST_PATH"}
     seen = set()
     output = []
     for line in original.splitlines(keepends=True):
@@ -133,8 +123,7 @@ def main():
 
     print(f"\nPostgreSQL host: {host}:{port}")
     print(f"CKAN database: {main_name} (user {main_user})")
-    print(f"Datastore database: {datastore_name} (write user {datastore_user}, read-only user {readonly_user})")
-    print(f"Uploaded files path: {storage}")
+    print(f"CKAN file storage path: {storage} (mounted in the container at /var/lib/ckan)")
     if input(f"Write settings to {ENV_FILE.name}? [y/N]: ").strip().lower() not in {"y", "yes"}:
         print("Cancelled; no files changed.")
         return 0
