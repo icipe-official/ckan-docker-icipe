@@ -62,7 +62,7 @@ more information.
 
 Use this if you are a maintainer and will not be making code changes to CKAN or to CKAN extensions
 
-Copy the included `.env.example` and rename it to `.env`. Modify it depending on your own needs.
+Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing example settings into an existing `.env`. Existing values are kept as defaults. It prompts for the PostgreSQL connection, datastore accounts, and host path for uploaded files. Review the remaining settings in `.env` before starting CKAN.
 
 For production, uploaded files are stored on the host at `CKAN_STORAGE_HOST_PATH` (by default
 `/srv/ckan/storage`) and mounted into CKAN at `CKAN_STORAGE_PATH` (`/var/lib/ckan`). Ensure this
@@ -78,6 +78,8 @@ To build the images:
 To start the containers:
 
 	docker compose up
+
+If NGINX is installed directly on the VM, keep the bundled NGINX container running as the gateway to CKAN. Its HTTP port is published only on `127.0.0.1:${NGINX_PORT_HOST}` (default `81`), so configure the VM's NGINX to proxy to `http://127.0.0.1:81`. The container's HTTPS endpoint remains available on `127.0.0.1:${NGINX_SSLPORT_HOST}` (default `8443`). Set `CKAN_SITE_URL` in `.env` to the public HTTPS URL served by the VM's NGINX, and have the VM NGINX send `X-Forwarded-Proto: https` so CKAN sees the public scheme.
 
 This will start up the containers in the current window. By default the containers will log direct to this window with each container
 using a different colour. You could also use the -d "detach mode" option ie: `docker compose up -d` if you wished to use the current

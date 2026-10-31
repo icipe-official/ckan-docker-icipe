@@ -1,0 +1,165 @@
+#!/usr/bin/env python3
+"""Create or update .env interactively from the repo's environment template."""
+
+from getpass import getpass
+from pathlib import Path
+from urllib.parse import parse_qs, quote, unquote, urlsplit
+import os
+import re
+import sys
+import tempfile
+
+
+ROOT = Path(__file__).resolve().parent.parent.parent
+ENV_FILE = ROOT / ".env"
+EXAMPLE_FILE = ROOT / ".env.example"
+
+
+def read_values(path):
+    values = {}
+    if not path.exists():
+        return values
+    for line in path.read_text().splitlines():
+        match = re.match(r"^\s*([A-Za-z_][A-Za-z0-9_]*)=(.*)$", line)
+        if match:
+            value = match.group(2).strip()
+            if len(value) >= 2 and value[0] == value[-1] and value[0] in "\"'":
+                value = value[1:-1]
+            values[match.group(1)] = value
+    return values
+
+
+def ask(label, default):
+    shown = f" [{default}]" if default else ""
+    answer = input(f"{label}{shown}: ").strip()
+    return answer or default
+
+
+def ask_secret(label, default):
+    if default:
+        answer = getpass(f"{label} (Enter keeps current value): ")
+        return answer or default
+    while True:
+        answer = getpass(f"{label}: ")
+        if answer:
+            return answer
+        print("A value is required.")
+
+
+def connection_defaults(url):
+    parsed = urlsplit(url or "postgresql://user:password@db/database")
+    query = parse_qs(parsed.query)
+    return {
+        "host": parsed.hostname or "db",
+        "port": str(parsed.port or 5432),
+        "user": unquote(parsed.username or ""),
+        "password": unquote(parsed.password or ""),
+        "database": unquote(parsed.path.lstrip("/")),
+        "sslmode": query.get("sslmode", [""])[0],
+    }
+
+
+def make_url(user, password, host, port, database, sslmode):
+    auth = quote(user, safe="")
+    if password:
+        auth += ":" + quote(password, safe="")
+    url = f"postgresql://{auth}@{host}:{port}/{quote(database, safe='')}"
+    if sslmode:
+        url += f"?sslmode={quote(sslmode, safe='')}"
+    return url
+
+
+def main():
+    if not EXAMPLE_FILE.exists():
+        sys.exit(f"Missing template: {EXAMPLE_FILE}")
+
+    template = EXAMPLE_FILE.read_text()
+    template_values = read_values(EXAMPLE_FILE)
+    if ENV_FILE.exists():
+        original = ENV_FILE.read_text()
+        values = {**template_values, **read_values(ENV_FILE)}
+        print("Using current .env values as defaults and adding any missing settings from .env.example.")
+    else:
+        original = template
+        values = template_values
+        print("Creating .env from .env.example.")
+
+    main_db = connection_defaults(values.get("CKAN_SQLALCHEMY_URL", ""))
+    host = ask("PostgreSQL host", main_db["host"])
+    port = ask("PostgreSQL port", main_db["port"])
+    main_user = ask("CKAN database user", main_db["user"])
+    main_password = ask_secret("CKAN database password", main_db["password"])
+    main_name = ask("CKAN database name", main_db["database"])
+    sslmode = ask("PostgreSQL SSL mode (blank for default)", main_db["sslmode"])
+
+    datastore_write = connection_defaults(values.get("CKAN_DATASTORE_WRITE_URL", ""))
+    datastore_user = ask("Datastore write user", datastore_write["user"])
+    datastore_password = ask_secret("Datastore write password", datastore_write["password"])
+    datastore_name = ask("Datastore database name", datastore_write["database"])
+    datastore_read = connection_defaults(values.get("CKAN_DATASTORE_READ_URL", ""))
+    readonly_user = ask("Datastore read-only user", datastore_read["user"])
+    readonly_password = ask_secret("Datastore read-only password", datastore_read["password"])
+
+    storage = ask("Host path for CKAN uploaded files", values.get("CKAN_STORAGE_HOST_PATH", "/srv/ckan/storage"))
+
+    values["CKAN_SQLALCHEMY_URL"] = make_url(main_user, main_password, host, port, main_name, sslmode)
+    values["CKAN_DATASTORE_WRITE_URL"] = make_url(datastore_user, datastore_password, host, port, datastore_name, sslmode)
+    values["CKAN_DATASTORE_READ_URL"] = make_url(readonly_user, readonly_password, host, port, datastore_name, sslmode)
+    values["CKAN_STORAGE_HOST_PATH"] = storage
+
+    # Update selected assignments and preserve existing settings and comments.
+    keys = {"CKAN_SQLALCHEMY_URL", "CKAN_DATASTORE_WRITE_URL", "CKAN_DATASTORE_READ_URL", "CKAN_STORAGE_HOST_PATH"}
+    seen = set()
+    output = []
+    for line in original.splitlines(keepends=True):
+        match = re.match(r"^(\s*)([A-Za-z_][A-Za-z0-9_]*)(=.*)$", line.rstrip("\r\n"))
+        if match and match.group(2) in keys:
+            key = match.group(2)
+            newline = "\r\n" if line.endswith("\r\n") else "\n" if line.endswith("\n") else ""
+            output.append(f"{match.group(1)}{key}={values[key]}{newline}")
+            seen.add(key)
+        else:
+            output.append(line)
+    present = read_values_from_text("".join(output))
+    missing = [key for key in template_values if key not in present]
+    if missing:
+        if output and not output[-1].endswith("\n"):
+            output[-1] += "\n"
+        output.append("\n# Additional defaults from .env.example\n")
+        for key in missing:
+            output.append(f"{key}={values[key]}\n")
+    for key in keys - seen:
+        output.append(f"{key}={values[key]}\n")
+
+    print(f"\nPostgreSQL host: {host}:{port}")
+    print(f"CKAN database: {main_name} (user {main_user})")
+    print(f"Datastore database: {datastore_name} (write user {datastore_user}, read-only user {readonly_user})")
+    print(f"Uploaded files path: {storage}")
+    if input(f"Write settings to {ENV_FILE.name}? [y/N]: ").strip().lower() not in {"y", "yes"}:
+        print("Cancelled; no files changed.")
+        return 0
+
+    fd, temp_name = tempfile.mkstemp(prefix=".env.", dir=ROOT, text=True)
+    try:
+        with os.fdopen(fd, "w") as stream:
+            stream.writelines(output)
+        os.chmod(temp_name, 0o600)
+        os.replace(temp_name, ENV_FILE)
+    finally:
+        if os.path.exists(temp_name):
+            os.unlink(temp_name)
+    print(f"Updated {ENV_FILE}.")
+    return 0
+
+
+def read_values_from_text(contents):
+    values = {}
+    for line in contents.splitlines():
+        match = re.match(r"^\s*([A-Za-z_][A-Za-z0-9_]*)=(.*)$", line)
+        if match:
+            values[match.group(1)] = match.group(2)
+    return values
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
