@@ -1,5 +1,20 @@
-/*
-body {
-  border-radius: 0;
-}
-*/
+:root { --icipe-green: #166b45; --icipe-leaf: #78a22f; --icipe-forest: #104831; --icipe-sand: #f5f2e8; --icipe-ink: #19352b; }
+body { color: var(--icipe-ink); }
+.masthead { background: var(--icipe-forest); border-bottom: 4px solid var(--icipe-leaf); }
+.masthead .navigation .nav-pills li a:hover, .masthead .navigation .nav-pills li.active a { background-color: var(--icipe-green); }
+.masthead .navigation .nav-pills li a { color: #fff; font-weight: 600; }
+.icipe-brand { display: flex !important; align-items: center; gap: 14px; min-height: 74px; }
+.icipe-brand img { background: #fff; border-radius: 3px; height: 54px; max-width: 132px; object-fit: contain; padding: 4px 8px; }
+.icipe-brand__portal { border-left: 1px solid rgba(255,255,255,.45); color: #fff; font-size: 18px; font-weight: 600; letter-spacing: .04em; padding-left: 14px; text-transform: uppercase; }
+.homepage .hero { background-color: var(--icipe-forest); }
+.homepage .module-search .module-content { background-color: var(--icipe-sand); }
+.homepage .module-search .tags h3 { color: var(--icipe-forest); }
+.btn-primary { background-color: var(--icipe-green); border-color: var(--icipe-green); }
+.btn-primary:hover, .btn-primary:focus { background-color: var(--icipe-forest); border-color: var(--icipe-forest); }
+.account-masthead { background-color: #0b3525; }
+.site-footer { background: #0e3526; }
+.site-footer a { color: #d7e9a8; }
+.icipe-footer__title { color: #fff; font-size: 18px; font-weight: 700; margin-bottom: 6px; }
+.module-heading { border-left: 4px solid var(--icipe-leaf); color: var(--icipe-forest); }
+.dataset-item .dataset-heading a, .dataset-item .dataset-heading a:visited { color: var(--icipe-green); }
+@media (max-width: 767px) { .icipe-brand__portal { font-size: 13px; } .icipe-brand img { height: 44px; max-width: 108px; } }

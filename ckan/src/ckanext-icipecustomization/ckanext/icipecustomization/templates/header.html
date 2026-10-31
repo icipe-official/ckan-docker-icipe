@@ -1,16 +1,18 @@
 {% ckan_extends %}
 
+{% block header_logo %}
+  <a class="logo icipe-brand" href="{{ h.url_for('home.index') }}" aria-label="{{ _('icipe Data Portal') }}">
+    <img src="https://www.icipe.org/sites/default/files/icipe-logo-Monochrome-280x115.png"
+         alt="icipe — International Centre of Insect Physiology and Ecology">
+    <span class="icipe-brand__portal">Data Portal</span>
+  </a>
+{% endblock %}
+
 {% block header_site_navigation_tabs %}
-  <li>
-    <a href="https://dmmg.icipe.org/" target="_blank">
-      {{ _('Back to Data Resources') }}
-
-
-
+  <li><a href="https://idap.icipe.org/" target="_blank" rel="noopener">{{ _('Data resources') }}</a></li>
   {% set dataset_type = h.default_package_type() %}
   {% set org_type = h.default_group_type('organization') %}
   {% set group_type = h.default_group_type('group') %}
-
   {{ h.build_nav_main(
       (dataset_type ~ '.search', _('Projects'), ["dataset", "resource"]),
       (org_type ~ '.index', _('Themes'), ['organization']),
@@ -18,4 +20,3 @@
       ('home.about', _('About'))
   ) }}
 {% endblock %}
-

@@ -17,10 +17,13 @@ services:
         - TZ=${TZ}
     env_file:
       - .env
-    links:
-      - db
-      - solr
-      - redis
+    depends_on:
+      db:
+        condition: service_healthy
+      solr:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
     ports:
       - "0.0.0.0:${CKAN_PORT_HOST}:5000"
     volumes:
@@ -41,6 +44,9 @@ services:
 
   datapusher:
     image: ckan/ckan-base-datapusher:${DATAPUSHER_VERSION}
+    depends_on:
+      db:
+        condition: service_healthy
     restart: unless-stopped
     healthcheck:
       test: ["CMD", "wget", "-qO", "/dev/null", "http://localhost:8800"]

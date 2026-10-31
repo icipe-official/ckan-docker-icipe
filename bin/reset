@@ -1,0 +1,20 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if [[ ! -f "$ROOT/.env.example" ]]; then
+  echo "Missing .env.example in $ROOT" >&2
+  exit 1
+fi
+
+if [[ -f "$ROOT/.env" ]]; then
+  read -r -p "Replace .env with defaults from .env.example? Current settings will be lost. [y/N]: " answer || answer=""
+  case "$answer" in
+    y|Y|yes|YES) ;;
+    *) echo "Keeping current .env."; exit 0 ;;
+  esac
+fi
+
+cp -- "$ROOT/.env.example" "$ROOT/.env"
+echo "Reset .env to defaults from .env.example. Database volumes were not changed."

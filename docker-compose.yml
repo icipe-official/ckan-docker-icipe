@@ -1,5 +1,4 @@
 volumes:
-  ckan_storage:
   pg_data:
   solr_data:
   pip_cache:
@@ -18,7 +17,8 @@ services:
       ckan:
         condition: service_healthy
     ports:
-      - "0.0.0.0:${NGINX_SSLPORT_HOST}:${NGINX_SSLPORT}"
+      - "127.0.0.1:${NGINX_PORT_HOST}:${NGINX_PORT}"
+      - "127.0.0.1:${NGINX_SSLPORT_HOST}:${NGINX_SSLPORT}"
     
   ckan:
     build:
@@ -41,7 +41,7 @@ services:
       redis:
         condition: service_healthy
     volumes:
-      - ckan_storage:/var/lib/ckan
+      - "${CKAN_STORAGE_HOST_PATH:-/srv/ckan/storage}:/var/lib/ckan"
       - pip_cache:/root/.cache/pip
       - site_packages:/usr/lib/python3.10/site-packages
       - ./ckan/schemas:/srv/app/schemas

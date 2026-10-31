@@ -62,7 +62,11 @@ more information.
 
 Use this if you are a maintainer and will not be making code changes to CKAN or to CKAN extensions
 
-Copy the included `.env.example` and rename it to `.env`. Modify it depending on your own needs.
+Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing example settings into an existing `.env`. Existing values are kept as defaults. It prompts for the CKAN PostgreSQL connection and file storage path on the host (directory or mount point). Review the remaining settings, including DataStore database URLs, in `.env` before starting CKAN.
+
+For production, uploaded files are stored on the host at `CKAN_STORAGE_HOST_PATH` (by default
+`/srv/ckan/storage`) and mounted into CKAN at `CKAN_STORAGE_PATH` (`/var/lib/ckan`). Ensure this
+host directory is on persistent storage and is included in backups.
 
 > [!WARNING]
 > There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD` (`ckan_admin` and `test1234` by default). These must be changed before running this setup as a public CKAN instance.
@@ -74,6 +78,8 @@ To build the images:
 To start the containers:
 
 	docker compose up
+
+If NGINX is installed directly on the VM, keep the bundled NGINX container running as the gateway to CKAN. Its HTTP port is published only on `127.0.0.1:${NGINX_PORT_HOST}` (default `81`), so configure the VM's NGINX to proxy to `http://127.0.0.1:81`. The container's HTTPS endpoint remains available on `127.0.0.1:${NGINX_SSLPORT_HOST}` (default `8443`). Set `CKAN_SITE_URL` in `.env` to the public HTTPS URL served by the VM's NGINX, and have the VM NGINX send `X-Forwarded-Proto: https` so CKAN sees the public scheme.
 
 This will start up the containers in the current window. By default the containers will log direct to this window with each container
 using a different colour. You could also use the -d "detach mode" option ie: `docker compose up -d` if you wished to use the current
@@ -98,6 +104,14 @@ After this step, CKAN should be running at `CKAN_SITE_URL` (by default https://l
 ### Development mode
 
 Use this mode if you are making code changes to CKAN and either creating new extensions or making code changes to existing extensions. This mode also uses the `.env` file for config options.
+
+For the icipe portal, a local `.env` is included with development-only credentials. Start CKAN together with PostgreSQL, Solr, Redis and DataPusher with:
+
+```bash
+docker compose -f docker-compose.dev.yml up --build
+```
+
+Visit [http://localhost:5000](http://localhost:5000). The local administrator account is `ckan_admin` / `test1234`; change these values before exposing the service beyond local development.
 
 To develop local extensions use the `docker-compose.dev.yml` file with help from the scripts under `bin`:
 
