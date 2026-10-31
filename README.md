@@ -62,6 +62,41 @@ more information.
 
 Use this if you are a maintainer and will not be making code changes to CKAN or to CKAN extensions
 
+### Install on a production VM
+
+Keep the application checkout under `/opt` and CKAN's persistent files in their mounted storage location (for example, `/media/ckan`). Do not clone the repository into an administrator's home directory or into the CKAN data directory. A dedicated deployment account owns the checkout; other administrators can run its commands with `sudo`.
+
+Create the account and clone the `master` branch directly into `/opt`:
+
+```bash
+sudo adduser --system --group --home /opt/ckan-deploy ckan-deploy
+sudo install -d -o ckan-deploy -g ckan-deploy /opt/ckan-docker-icipe
+sudo -u ckan-deploy git clone --branch master \
+  https://github.com/icipe-official/ckan-docker-icipe.git \
+  /opt/ckan-docker-icipe
+```
+
+Run the interactive environment setup as the deployment account. Set the file storage path to the host directory or mount point, such as `/media/ckan`:
+
+```bash
+sudo -u ckan-deploy /opt/ckan-docker-icipe/bin/icipe/setup
+```
+
+Update the checkout later with:
+
+```bash
+sudo -u ckan-deploy git -C /opt/ckan-docker-icipe pull --ff-only origin master
+```
+
+Start or update the containers from the checkout directory:
+
+```bash
+cd /opt/ckan-docker-icipe
+sudo docker compose up -d
+```
+
+The deployment account owns the source and `.env`; Docker commands run with `sudo`. Keep the persistent file storage under `/media/ckan` separate from the repository.
+
 Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing example settings into an existing `.env`. Existing values are kept as defaults. It prompts for the CKAN PostgreSQL connection and file storage path on the host (directory or mount point). Review the remaining settings, including DataStore database URLs, in `.env` before starting CKAN.
 
 For production, uploaded files are stored on the host at `CKAN_STORAGE_HOST_PATH` (by default
