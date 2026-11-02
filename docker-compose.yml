@@ -19,6 +19,7 @@ services:
     ports:
       - "127.0.0.1:${NGINX_PORT_HOST}:${NGINX_PORT}"
       - "127.0.0.1:${NGINX_SSLPORT_HOST}:${NGINX_SSLPORT}"
+    restart: unless-stopped
     
   ckan:
     build:

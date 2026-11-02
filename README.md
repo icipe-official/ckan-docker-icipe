@@ -142,6 +142,12 @@ To start the containers:
 
 If NGINX is installed directly on the VM, keep the bundled NGINX container running as the gateway to CKAN. Its HTTP port is published only on `127.0.0.1:${NGINX_PORT_HOST}` (default `81`), so configure the VM's NGINX to proxy to `http://127.0.0.1:81`. The container's HTTPS endpoint remains available on `127.0.0.1:${NGINX_SSLPORT_HOST}` (default `8443`). Set `CKAN_SITE_URL` in `.env` to the public HTTPS URL served by the VM's NGINX, and have the VM NGINX send `X-Forwarded-Proto: https` so CKAN sees the public scheme.
 
+All services use Docker's `unless-stopped` restart policy. Docker restarts them after a host reboot
+or if a container process exits, unless an administrator explicitly stopped the container. CKAN's
+policy was already configured; NGINX now uses the same policy. Docker does not restart a container
+solely because its health check reports `unhealthy`, so monitor CKAN health separately. Ensure the
+Docker service is enabled at boot with `sudo systemctl enable docker`.
+
 This will start up the containers in the current window. By default the containers will log direct to this window with each container
 using a different colour. You could also use the -d "detach mode" option ie: `docker compose up -d` if you wished to use the current
 window for something else.
