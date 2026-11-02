@@ -106,6 +106,29 @@ the webassets cache directory in this mount. The mount must be writable by the C
 (UID 503, GID 502). For Azure Files CIFS mounts, set `uid=503,gid=502,dir_mode=0775,file_mode=0664`
 in the host mount options; `chown` inside the container cannot change CIFS ownership.
 
+### CKAN datasets and the Solr search index
+
+Dataset metadata is stored in PostgreSQL. Uploaded resource files are stored in the mounted CKAN
+storage directory, while Solr maintains the index used by CKAN searches and dataset listings. If the
+PostgreSQL database is restored or Solr's named volume is new or out of sync, datasets can exist in
+the database but appear missing from search. Check the index from the deployment directory:
+
+```bash
+sudo docker compose exec ckan \
+  ckan -c /srv/app/ckan.ini search-index check
+```
+
+If CKAN reports datasets missing from the index, rebuild it:
+
+```bash
+sudo docker compose exec ckan \
+  ckan -c /srv/app/ckan.ini search-index rebuild
+```
+
+The rebuild repopulates Solr from the CKAN database; it does not restore missing metadata or
+uploaded files. See the [CKAN CLI documentation](https://docs.ckan.org/en/2.11/maintaining/cli.html)
+for search-index commands.
+
 > [!WARNING]
 > There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD` (`ckan_admin` and `test1234` by default). These must be changed before running this setup as a public CKAN instance.
 
