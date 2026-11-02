@@ -102,7 +102,9 @@ Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing exam
 For production, uploaded files are stored on the host at `CKAN_STORAGE_HOST_PATH` (by default
 `/srv/ckan/storage`) and mounted into CKAN at `CKAN_STORAGE_PATH` (`/var/lib/ckan`). Ensure this
 host directory is on persistent storage and is included in backups. The CKAN startup hook creates
-the webassets cache directory in this mount and assigns it to the CKAN user before starting uWSGI.
+the webassets cache directory in this mount. The mount must be writable by the CKAN container user
+(UID 503, GID 502). For Azure Files CIFS mounts, set `uid=503,gid=502,dir_mode=0775,file_mode=0664`
+in the host mount options; `chown` inside the container cannot change CIFS ownership.
 
 > [!WARNING]
 > There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD` (`ckan_admin` and `test1234` by default). These must be changed before running this setup as a public CKAN instance.
