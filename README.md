@@ -101,7 +101,8 @@ Run `bin/icipe/setup` to create `.env` from `.env.example` or merge missing exam
 
 For production, uploaded files are stored on the host at `CKAN_STORAGE_HOST_PATH` (by default
 `/srv/ckan/storage`) and mounted into CKAN at `CKAN_STORAGE_PATH` (`/var/lib/ckan`). Ensure this
-host directory is on persistent storage and is included in backups.
+host directory is on persistent storage and is included in backups. The CKAN startup hook creates
+the webassets cache directory in this mount and assigns it to the CKAN user before starting uWSGI.
 
 > [!WARNING]
 > There is a sysadmin user created by default with the values defined in `CKAN_SYSADMIN_NAME` and `CKAN_SYSADMIN_PASSWORD` (`ckan_admin` and `test1234` by default). These must be changed before running this setup as a public CKAN instance.
